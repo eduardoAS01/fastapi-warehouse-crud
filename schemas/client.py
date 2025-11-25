@@ -16,3 +16,13 @@ class ClientRead(ClientBase):
 
     class Config:
         orm_mode = True     
+
+class ClientUpdate(BaseModel):
+    username: str | None = None
+    email: EmailStr | None = None
+    phone: str | None = None
+    password: str | None = None
+
+class ClientLogin(BaseModel):
+    email: EmailStr
+    password: str

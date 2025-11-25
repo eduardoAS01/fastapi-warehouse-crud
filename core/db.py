@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker,declarative_base
 from core.config import settings
+from models.client import Base
 
 DATABASE_URL =(
     f"mysql+pymysql://{settings.DB_USER}:{settings.DB_PASSWORD}"
@@ -28,3 +29,4 @@ def get_db():
         yield db
     finally:
         db.close()
+
