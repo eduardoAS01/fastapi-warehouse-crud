@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import datetime
 
 class ClientBase(BaseModel):
@@ -12,16 +12,17 @@ class ClientCreate(ClientBase):
 class ClientRead(ClientBase):
     id: int
     created_at: datetime
-    updated_at: datetime
+    updated_at: datetime | None = None
 
-    class Config:
-        orm_mode = True     
+    model_config = ConfigDict(from_attributes=True)
 
 class ClientUpdate(BaseModel):
     username: str | None = None
     email: EmailStr | None = None
     phone: str | None = None
     password: str | None = None
+
+    model_config = ConfigDict(from_attributes=True)
 
 class ClientLogin(BaseModel):
     email: EmailStr

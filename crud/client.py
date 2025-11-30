@@ -5,6 +5,10 @@ from core.security import hash_password
 
 def create_client(db: Session, data: ClientCreate):
     client_data = data.model_dump()
+    hashed = hash_password(client_data["password"])
+    client_data["password_hash"] = hashed
+
+    del client_data["password"]
     new_client = Client(**client_data)
 
     db.add(new_client)
@@ -49,6 +53,6 @@ def delete_client(db: Session, client_id: int):
         return None
     
     db.delete(client)
-    db.commit
+    db.commit()
 
-    return client
+    return True

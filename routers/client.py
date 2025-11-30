@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException,Response
 from sqlalchemy.orm import Session
 from core.db import get_db
 from crud.client import create_client,get_client,get_all_clients,delete_client,update_client
@@ -32,10 +32,12 @@ def change_client(client_id: int, data: ClientUpdate, db: Session = Depends(get_
 
     return client
 
-@router.delete("/{client_id}",status_code=204)
+@router.delete("/{client_id}",status_code=200)
 def remove_client(client_id: int,db: Session = Depends(get_db)):
     client = delete_client(db,client_id)
-
-    if client is None:
+    
+    if client is not True:
         raise HTTPException(status_code=404,detail="Client not found")
- 
+    
+    return {"detail":"client deleted"}
+    
