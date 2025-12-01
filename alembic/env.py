@@ -5,8 +5,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
-import sys
-import os
+from core.config import settings
+
+DATABASE_URL=f"mysql+pymysql://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -26,6 +27,7 @@ if config.config_file_name is not None:
 from core.base import Base
 
 from models.client import Client
+from models.supplier import Supplier
 
 target_metadata = Base.metadata
 
@@ -33,7 +35,7 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
+config.set_main_option("sqlalchemy.url",DATABASE_URL)
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
